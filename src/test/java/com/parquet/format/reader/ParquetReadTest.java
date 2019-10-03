@@ -21,7 +21,7 @@ import java.util.List;
 public class ParquetReadTest {
 
   private static final String TEMP_FILE_PATH = "src/test/testResources/test.parquet";
-  private static final int NO_OF_RECORDS = 20;
+  private static final int NO_OF_RECORDS = 200000;
 
   @Before
   public void createTempFile() throws IOException {
