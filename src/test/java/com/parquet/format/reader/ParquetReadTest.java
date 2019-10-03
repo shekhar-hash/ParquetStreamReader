@@ -1,11 +1,13 @@
 package com.parquet.format.reader;
 
 
+import com.parquet.format.reader.Exception.UnSupportedStreamTypeException;
 import it.unimi.dsi.fastutil.io.FastBufferedInputStream;
 import org.apache.hadoop.conf.Configuration;
 import org.apache.hadoop.fs.FSDataInputStream;
 import org.apache.hadoop.fs.FileSystem;
 import org.apache.hadoop.fs.Path;
+import org.junit.After;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
@@ -29,6 +31,14 @@ public class ParquetReadTest {
     ParquetTestUtil.parquetRecordWriter(NO_OF_RECORDS, TEMP_FILE_PATH);
   }
 
+  @After
+  public void deleteTempFile() throws IOException {
+    File file = new File(TEMP_FILE_PATH);
+    if (file.exists()) {
+      file.delete();
+    }
+  }
+
   @Test
   public void fileInputStreamTest() throws IOException {
     InputStream inputStream = new FileInputStream(new File(TEMP_FILE_PATH));
@@ -46,7 +56,7 @@ public class ParquetReadTest {
     Assert.assertEquals(NO_OF_RECORDS, list.size());
   }
 
-  @Test(expected = IOException.class)
+  @Test(expected = UnSupportedStreamTypeException.class)
   public void unSupportedFileSystem() throws IOException {
     InputStream inputStream = new InputStream() {
       @Override
@@ -55,6 +65,6 @@ public class ParquetReadTest {
       }
     };
     ParquetFormat parquetFormat = new ParquetFormat();
-    List<String> list = parquetFormat.getParquetRecords(inputStream);
+    parquetFormat.getParquetRecords(inputStream);
   }
 }

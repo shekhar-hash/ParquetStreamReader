@@ -1,5 +1,6 @@
 package com.parquet.format.reader;
 
+import com.parquet.format.reader.Exception.UnSupportedStreamTypeException;
 import org.apache.hadoop.fs.FSDataInputStream;
 import org.apache.parquet.column.page.PageReadStore;
 import org.apache.parquet.example.data.simple.SimpleGroup;
@@ -31,7 +32,7 @@ public class ParquetFormat {
 
     if (!(inputStream instanceof FileInputStream)) {
       if (!(inputStream instanceof FSDataInputStream) ) {
-        throw new IOException("InputStream expected of type "
+        throw new UnSupportedStreamTypeException("InputStream expected of type "
                 + FileInputStream.class.getName()
                 + " or " + FSDataInputStream.class.getName() + " but found "
                 + inputStream.getClass().getName());
