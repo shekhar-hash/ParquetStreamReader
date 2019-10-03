@@ -2,21 +2,18 @@ package com.parquet.format.reader;
 
 
 import com.parquet.format.reader.Exception.UnSupportedStreamTypeException;
-import it.unimi.dsi.fastutil.io.FastBufferedInputStream;
 import org.apache.hadoop.conf.Configuration;
 import org.apache.hadoop.fs.FSDataInputStream;
 import org.apache.hadoop.fs.FileSystem;
 import org.apache.hadoop.fs.Path;
+import org.apache.parquet.example.data.simple.SimpleGroup;
 import org.junit.After;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
-import org.junit.rules.ExpectedException;
 
-import java.io.BufferedInputStream;
 import java.io.File;
 import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.List;
@@ -43,7 +40,7 @@ public class ParquetReadTest {
   public void fileInputStreamTest() throws IOException {
     InputStream inputStream = new FileInputStream(new File(TEMP_FILE_PATH));
     ParquetFormat parquetFormat = new ParquetFormat();
-    List<String> list = parquetFormat.getParquetRecords(inputStream);
+    List<SimpleGroup> list = parquetFormat.getParquetRecords(inputStream);
     Assert.assertEquals(NO_OF_RECORDS, list.size());
   }
 
@@ -52,7 +49,7 @@ public class ParquetReadTest {
     FileSystem fileSystem = FileSystem.newInstance(new Configuration());
     InputStream inputStream = new FSDataInputStream(fileSystem.open(new Path(TEMP_FILE_PATH)));
     ParquetFormat parquetFormat = new ParquetFormat();
-    List<String> list = parquetFormat.getParquetRecords(inputStream);
+    List<SimpleGroup> list = parquetFormat.getParquetRecords(inputStream);
     Assert.assertEquals(NO_OF_RECORDS, list.size());
   }
 

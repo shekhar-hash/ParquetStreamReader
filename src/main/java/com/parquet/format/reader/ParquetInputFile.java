@@ -1,6 +1,5 @@
 package com.parquet.format.reader;
 
-import com.parquet.format.reader.ParquetSeekable;
 import org.apache.parquet.io.InputFile;
 import org.apache.parquet.io.SeekableInputStream;
 

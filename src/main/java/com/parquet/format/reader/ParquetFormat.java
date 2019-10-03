@@ -19,15 +19,15 @@ import java.util.List;
 
 public class ParquetFormat {
 
-  private List<String> records;
+  private List<SimpleGroup> records;
 
   /**
    * This Method is used to return all the Parquet records from an InputStream
-   * @return List<String> containing all the records from InputStream
+   * @return List<SimpleGroup> containing all the records from InputStream
    * @param inputStream must be of type FSDataInputStream or FileInputStream
    * @throws IOException
    */
-  public  List<String> getParquetRecords (InputStream inputStream)
+  public  List<SimpleGroup> getParquetRecords (InputStream inputStream)
           throws IOException {
 
     if (!(inputStream instanceof FileInputStream)) {
@@ -53,7 +53,7 @@ public class ParquetFormat {
 
       for (int i = 0; i < rows; i++) {
         SimpleGroup simpleGroup = (SimpleGroup) recordReader.read();
-        this.records.add(simpleGroup.toString());
+        this.records.add(simpleGroup);
       }
     }
     reader.close();
