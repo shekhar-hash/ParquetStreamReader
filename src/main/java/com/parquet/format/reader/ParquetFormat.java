@@ -25,17 +25,17 @@ import java.util.List;
 
 public class ParquetFormat {
 
-  private List<SimpleGroup> records;
   private static final Logger log = LoggerFactory.getLogger(ParquetFormat.class);
 
   /**
-   * This Method is used to return all the Parquet records from an InputStream
-   * @return List<SimpleGroup> containing all the records from InputStream
-   * @param inputStream must be of type FSDataInputStream or FileInputStream
+   * This Method is used to return all the Parquet records from given {@link InputStream}
+   * @return {@link List} of type {@link SimpleGroup} containing all the records from given {@link InputStream}
+   * @param inputStream must be of type {@link FSDataInputStream} or {@link FileInputStream}
    * @throws IOException
    */
   public  List<SimpleGroup> getParquetRecords (InputStream inputStream)
           throws IOException {
+    List<SimpleGroup> records = new ArrayList<>();
 
     if (!(inputStream instanceof FileInputStream)) {
       if (!(inputStream instanceof FSDataInputStream) ) {
@@ -53,7 +53,7 @@ public class ParquetFormat {
     Instant start = Instant.now();
 
     InputFile inputFile = new ParquetInputFile(inputStream);
-    this.records = new ArrayList();
+    records = new ArrayList();
     ParquetFileReader reader =
             null;
     try {
@@ -71,14 +71,14 @@ public class ParquetFormat {
 
       for (int i = 0; i < rows; i++) {
         SimpleGroup simpleGroup = (SimpleGroup) recordReader.read();
-        this.records.add(simpleGroup);
+        records.add(simpleGroup);
       }
     }
     Instant finish = Instant.now();
     long timeElapsed = Duration.between(start, finish).toMillis();
-    log.info("\u001B[32m" + "Returning {} records in {} milliseconds" + "\u001B[0m", this.records.size(), timeElapsed);
+    log.info("\u001B[32m" + "Returning {} records in {} milliseconds" + "\u001B[0m", records.size(), timeElapsed);
     reader.close();
     log.info("\u001B[32m" + "Reader Closed" + "\u001B[0m");
-    return this.records;
+    return records;
   }
 }
