@@ -40,7 +40,7 @@ public class ParquetReadTest {
   public void fileInputStreamTest() throws IOException {
     InputStream inputStream = new FileInputStream(new File(TEMP_FILE_PATH));
     ParquetFormat parquetFormat = new ParquetFormat();
-    List<SimpleGroup> list = parquetFormat.getParquetRecords(inputStream);
+    List<SimpleGroup> list = parquetFormat.getParquetRecords(inputStream).getList();
     Assert.assertEquals(NO_OF_RECORDS, list.size());
   }
 
@@ -49,7 +49,7 @@ public class ParquetReadTest {
     FileSystem fileSystem = FileSystem.newInstance(new Configuration());
     InputStream inputStream = new FSDataInputStream(fileSystem.open(new Path(TEMP_FILE_PATH)));
     ParquetFormat parquetFormat = new ParquetFormat();
-    List<SimpleGroup> list = parquetFormat.getParquetRecords(inputStream);
+    List<SimpleGroup> list = parquetFormat.getParquetRecords(inputStream).getList();
     Assert.assertEquals(NO_OF_RECORDS, list.size());
   }
 

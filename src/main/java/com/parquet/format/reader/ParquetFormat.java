@@ -1,6 +1,7 @@
 package com.parquet.format.reader;
 
 import com.parquet.format.reader.Exception.UnSupportedStreamTypeException;
+import org.apache.avro.reflect.AvroSchema;
 import org.apache.hadoop.fs.FSDataInputStream;
 import org.apache.log4j.BasicConfigurator;
 import org.apache.parquet.column.page.PageReadStore;
@@ -33,7 +34,7 @@ public class ParquetFormat {
    * @param inputStream must be of type {@link FSDataInputStream} or {@link FileInputStream}
    * @throws IOException
    */
-  public  List<SimpleGroup> getParquetRecords (InputStream inputStream)
+  public  ParquetSchemaRecord getParquetRecords (InputStream inputStream)
           throws IOException {
     List<SimpleGroup> records = new ArrayList<>();
 
@@ -79,6 +80,6 @@ public class ParquetFormat {
     log.info("\u001B[32m" + "Returning {} records in {} milliseconds" + "\u001B[0m", records.size(), timeElapsed);
     reader.close();
     log.info("\u001B[32m" + "Reader Closed" + "\u001B[0m");
-    return records;
+    return new ParquetSchemaRecord(records, schema);
   }
 }
